@@ -1209,9 +1209,7 @@ void PropertyLoadBootDefaults() {
     property_initialize_ro_cpu_abilist();
     property_initialize_ro_vendor_api_level();
 
-    if (android::base::GetBoolProperty("ro.persistent_properties.ready", false)) {
-        update_sys_usb_config();
-    }
+    update_sys_usb_config();
 
     // Workaround SafetyNet
     workaround_snet_properties();
