@@ -1341,7 +1341,6 @@ static void ProcessKernelDt() {
 }
 
 constexpr auto ANDROIDBOOT_PREFIX = "androidboot."sv;
-constexpr auto ANDROIDBOOT_MODE = "androidboot.mode"sv;
 
 static void ProcessKernelCmdline() {
     ImportKernelCmdline([&](const std::string& key, const std::string& value) {
@@ -1361,24 +1360,10 @@ static void ProcessBootconfig() {
 }
 
 static void SetSafetyNetProps() {
-    // Check whether this is a normal boot, and whether the bootloader is actually locked
-    auto isNormalBoot = true; // no prop = normal boot
-    // This runs before keys are set as props, so we need to process them ourselves.
-    ImportKernelCmdline([&](const std::string& key, const std::string& value) {
-        if (key == ANDROIDBOOT_MODE && value != "normal") {
-            isNormalBoot = false;
-        }
-    });
-    ImportBootconfig([&](const std::string& key, const std::string& value) {
-        if (key == ANDROIDBOOT_MODE && value != "normal") {
-            isNormalBoot = false;
-        }
-    });
-
     // Bail out if this is recovery, fastbootd, or anything other than a normal boot.
     // fastbootd, in particular, needs the real values so it can allow flashing on
     // unlocked bootloaders.
-    if (!isNormalBoot) {
+    if (IsRecoveryMode()) {
         return;
     }
 
