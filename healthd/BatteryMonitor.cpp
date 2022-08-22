@@ -376,7 +376,7 @@ void BatteryMonitor::updateValues(void) {
             // Look for "type" file in each subdirectory
             path.clear();
             path.appendFormat("%s/%s/type", POWER_SUPPLY_SYSFS_PATH, name);
-            switch(BatteryMonitor::readPowerSupplyType(path)) {
+            switch(readPowerSupplyType(path)) {
             case ANDROID_POWER_SUPPLY_TYPE_AC:
             case ANDROID_POWER_SUPPLY_TYPE_USB:
             case ANDROID_POWER_SUPPLY_TYPE_WIRELESS:
