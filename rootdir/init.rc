@@ -105,6 +105,8 @@ on early-init
 on init
     sysclktz 0
 
+    setprop persist.sys.keyboard_no_navigation_bar 1
+
     # Mix device-specific information into the entropy pool
     copy /proc/cmdline /dev/urandom
     copy /proc/bootconfig /dev/urandom
